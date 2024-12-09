@@ -143,7 +143,6 @@ ifd.create_and_train_ConvISO(created_model= main_model, XGB_model=xgb_model, X_t
 #Train with ConvSVM
 ifd.create_and_train_ConvSVM(created_model= main_model, XGB_model=xgb_model, X_train=X_train)
 
-#Train with 
 ```
 
 ---
