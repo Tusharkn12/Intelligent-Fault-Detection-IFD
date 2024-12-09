@@ -136,7 +136,7 @@ ifd.create_and_train_ConvXGB(created_model=cnn_model, XGB_model=xgb_model, X_tra
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the Apache 2.0 License.
 
 ---
 
