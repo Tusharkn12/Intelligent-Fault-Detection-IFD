@@ -1,5 +1,6 @@
 
 # Intelligent Fault Detection (IFD)
+colab link : https://colab.research.google.com/drive/1x4fmxJEL18f_N5_Wq9grDuMzYR3jtBzK?usp=sharing
 
 The `IFD` class provides a comprehensive framework for integrating Convolutional Neural Networks (CNNs) with various machine learning models like XGBoost, Isolation Forest, and Support Vector Machines (SVM). It is designed to streamline the process of creating, training, and evaluating models for intelligent fault detection.
 
