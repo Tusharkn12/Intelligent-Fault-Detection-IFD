@@ -3,7 +3,8 @@
 
 The `IFD` class provides a comprehensive framework for integrating Convolutional Neural Networks (CNNs) with various machine learning models like XGBoost, Isolation Forest, and Support Vector Machines (SVM). It is designed to streamline the process of creating, training, and evaluating models for intelligent fault detection.
 
-## Features
+## Features![IFD](https://github.com/user-attachments/assets/140b918b-94c5-494f-800c-5c1b2ec348f5)
+
 
 - Easily configure and integrate CNN models with other machine learning techniques.
 - Automates the creation of data pipelines for efficient training.
@@ -118,10 +119,23 @@ Here is an example workflow:
 from IFD import IFD
 
 # Initialize the IFD class
-ifd = IFD(transformed_img_shape=(64, 64, 3), n_f=64, T_x=10, num_pred=1)
+#Here M*N should be equal to T_x
+ifd = IFD(transformed_img_shape=(10, 14), n_f=64, T_x = 140, num_pred=1)
 
-# Set up convolutional layer
-ifd.set_conv_layer(conv_model=pretrained_model, auto_encoder=False)
+#Making functional Model of convolutional neural network
+inp = Input(shape = (10, 14))
+conv1 = Conv2D(30, (3,3))(inp)
+------------------------------
+------------------------------
+output = Dense(1, activation = "relu")(prev_output)
+conv_model = Model(inputs = [inp], outputs = [output])
+
+# Set up convolutional layer(Supervised learning)
+ifd.set_conv_layer(conv_model=conv_model, auto_encoder=False)
+
+#Set up convolutional layer(Unsupervised learning)
+#if your conv_model has autoencoder architecture
+ifd.set_conv_layer(conv_model=conv_model, auto_encoder = True)
 
 # Set up data generator
 ifd.set_Data_generator()
@@ -133,15 +147,28 @@ if ifd.conditions_check():
 #Creating Main model
 main_model = ifd.create_model()
 
+#First train main model
+main_model.fit(X_train, y_train, epochs = 32)
+
 #ConvXGB, ConvISO, ConvSVM could only be created after training main model
 # Train with ConvXGB
-ifd.create_and_train_ConvXGB(created_model= main_model, XGB_model=xgb_model, X_train=X_train, y_train=y_train)
+xgb_model =  XGB(n_estimators = 300, min_depth = 5, verbosity = 3)
+ConvXGB = ifd.create_and_train_ConvXGB(created_model= main_model, XGB_model=xgb_model, X_train=X_train, y_train=y_train)
+output = ConvXGB.pre_xgb_model(X_test)
+pred = ConvXGB.XGB_model.predict(output[0])
 
 #Train with ConvISO
-ifd.create_and_train_ConvISO(created_model= main_model, XGB_model=xgb_model, X_train=X_train)
+iso_model = IsolationForest(n_estimators = 300, random_state = 42, contamination = 0.5)
+ifd.create_and_train_ConvISO(created_model= main_model, ISO_model=iso_model, X_train=X_train)
+iso_output = ConvISO.pre_iso_model(X_test)
+iso_pred = ConvISO.ISO_model.predict(iso_output[0])
+
 
 #Train with ConvSVM
-ifd.create_and_train_ConvSVM(created_model= main_model, XGB_model=xgb_model, X_train=X_train)
+svm_model = ocsvm(degree = 4, gamma = 0.01, nu = 0.01, kernel = "poly", verbose = True)
+ifd.create_and_train_ConvSVM(created_model= main_model, SVM_model=svm_model, X_train=X_train)
+svm_output = ConvSVM.pre_svm_model(X_test)
+pred_svm = ConvSVM.SVM_model.predict(svm_output[0])
 
 ```
 
