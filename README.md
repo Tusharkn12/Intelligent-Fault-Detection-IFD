@@ -146,6 +146,29 @@ ifd.create_and_train_ConvSVM(created_model= main_model, XGB_model=xgb_model, X_t
 ```
 
 ---
+## Dependencies
+
+This project requires the following Python libraries:
+
+- `numpy`
+- `matplotlib`
+- `tensorflow`
+- `pandas`
+- `xgboost`
+- `umap-learn`
+- `seaborn`
+- `scikit-learn`
+- `keras`
+
+### Installation
+
+To install the required dependencies, run:
+
+```bash
+pip install -r requirements.txt
+---
+
+---
 
 ## License
 
