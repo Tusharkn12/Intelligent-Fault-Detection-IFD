@@ -61,7 +61,17 @@ def conditions_check(self) -> bool:
 
 ---
 
-### 5. Creating and Training Models
+### 5. Generating the Model
+
+```python
+def create_model(self):
+```
+- Generates the Main CNN model structure.
+
+---
+
+### 6. Creating and Training Models
+-All of them could only be created after training main model.
 
 #### a. Convolutional + XGBoost
 
@@ -99,14 +109,6 @@ def create_and_train_ConvSVM(self, created_model, SVM_model, X_train):
 
 ---
 
-### 6. Generating the Model
-
-```python
-def create_model(self):
-```
-- Generates the base CNN model structure.
-
----
 
 ## Example Usage
 
@@ -128,8 +130,20 @@ ifd.set_Data_generator()
 if ifd.conditions_check():
     print("Conditions satisfied. Proceeding with training.")
 
+#Creating Main model
+main_model = ifd.create_model()
+
+#ConvXGB, ConvISO, ConvSVM could only be created after training main model
 # Train with ConvXGB
-ifd.create_and_train_ConvXGB(created_model=cnn_model, XGB_model=xgb_model, X_train=X_train, y_train=y_train)
+ifd.create_and_train_ConvXGB(created_model= main_model, XGB_model=xgb_model, X_train=X_train, y_train=y_train)
+
+#Train with ConvISO
+ifd.create_and_train_ConvISO(created_model= main_model, XGB_model=xgb_model, X_train=X_train)
+
+#Train with ConvSVM
+ifd.create_and_train_ConvSVM(created_model= main_model, XGB_model=xgb_model, X_train=X_train)
+
+#Train with 
 ```
 
 ---
