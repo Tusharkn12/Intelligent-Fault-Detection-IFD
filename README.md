@@ -119,7 +119,7 @@ Here is an example workflow:
 from IFD import IFD
 
 # Initialize the IFD class
-#Here M*N should be equal to T_x
+#Here size of transformed image should be equal to T_x
 ifd = IFD(transformed_img_shape=(10, 14), n_f=64, T_x = 140, num_pred=1)
 
 #Making functional Model of convolutional neural network
