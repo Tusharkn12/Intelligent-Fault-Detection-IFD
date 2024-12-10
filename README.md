@@ -4,8 +4,7 @@ colab link : https://colab.research.google.com/drive/1x4fmxJEL18f_N5_Wq9grDuMzYR
 
 The `IFD` class provides a comprehensive framework for integrating Convolutional Neural Networks (CNNs) with various machine learning models like XGBoost, Isolation Forest, and Support Vector Machines (SVM). It is designed to streamline the process of creating, training, and evaluating models for intelligent fault detection.
 
-## Features![IFD](https://github.com/user-attachments/assets/140b918b-94c5-494f-800c-5c1b2ec348f5)
-
+![IFD](https://github.com/user-attachments/assets/4df35ac4-57f7-4f78-a681-b1913204b6ff)
 
 - Easily configure and integrate CNN models with other machine learning techniques.
 - Automates the creation of data pipelines for efficient training.
