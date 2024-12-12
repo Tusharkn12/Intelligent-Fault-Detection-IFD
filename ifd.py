@@ -284,7 +284,7 @@ class IFD:
         raise InvalidDimensions(f"conv_model_output should be equal to the num of predictions in this case {self.num_pred}")
 
     if self.auto_encoder_status == True and self.conv_model_output != self.conv_model_input:
-      raise InvalidDimensions(f"Output shape  of conv model should be equal to input shape for autoencoder// In these Case {self.conv_model_output} != {self.conv_model_input}")
+      raise InvalidDimensions(f"Output shape  of conv model should be equal to input shape in case of  autoencoder// In these Case {self.conv_model_output} != {self.conv_model_input}")
 
     ###Checking conditions for AutoEncoder
     ##TO DO
