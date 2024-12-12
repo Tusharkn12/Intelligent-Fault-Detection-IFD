@@ -228,12 +228,12 @@ class MissingLayerName(Exception):
 
 class IFD:
   """Attributes:
-  transformed_img_shape:
-  n_f:
-  T_x:
-  num_pred:
-  batch_size:
-  replace_part:"""
+  transformed_img_shape:Shape of the transformed image for model input.
+  n_f:Number of features in the input data.
+  T_x:Time steps for the model.
+  num_pred:Number of predictions the model will make.
+  batch_size: Batch size for training (default is 32).
+  replace_part:Whether to replace parts of the model (default is True)"""
 
   def __init__(self, transformed_img_shape, n_f, T_x,  num_pred, batch_size = 32, replace_part = True) -> None:
     self.transformed_img_shape = transformed_img_shape
