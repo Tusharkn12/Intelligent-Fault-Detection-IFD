@@ -116,7 +116,7 @@ def create_and_train_ConvSVM(self, created_model, SVM_model, X_train):
 Here is an example workflow:
 
 ```python
-from IFD import IFD
+from ifd import IFD
 
 # Initialize the IFD class
 #Here size of transformed image should be equal to T_x
