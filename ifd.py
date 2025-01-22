@@ -65,7 +65,7 @@ class DataReverser(tf.keras.layers.Layer):
   n_f : NO of feaTures
   batch_size : No of examples in single batch"""
 
-  def __init__(self, T_x, n_f, batch_size):
+  def __init__(self, T_x, n_f):
     super(DataReverser, self).__init__()
     self.T_x = T_x
     self.n_f = n_f
@@ -99,15 +99,16 @@ class Conv_layer(tf.keras.layers.Layer):
     self.conv_model = conv_model
     self.conv_model_config = conv_model.to_json()
     self.conv_input = conv_model.input
+
     #Checking for AutoEncoder status because autoencoder require different conditioning of pre_xgb_model
     if autoencoder_status:
       try:
         self.conv_output = conv_model.get_layer("Middle").output
+        self.middle_layer_shape = conv_model.get_layer("Middle").output_shape
       except:
         raise MissingLayerName(f""" The layer name "Middle" is not found in the conv_model
                                    ///Ensure that provided conv model has a layer named Middle
                                    'Middle Layer is bottleneck layer
-                                   If you are Making ConvLSTM then "Middle" should be the name of extra layer after LSTM output"
                                     """)  from None
     else:
       try:
@@ -283,14 +284,11 @@ class IFD:
       else:
         raise InvalidDimensions(f"conv_model_output should be equal to the num of predictions in this case {self.num_pred}")
 
-    if self.auto_encoder_status == True and self.conv_model_output != self.conv_model_input:
-      raise InvalidDimensions(f"Output shape  of conv model should be equal to input shape in case of  autoencoder// In these Case {self.conv_model_output} != {self.conv_model_input}")
-
-    ###Checking conditions for AutoEncoder
-    ##TO DO
     if self.auto_encoder_status == True:
-      pass
-    return True
+        if self.conv_model_output != self.conv_model_input:
+          raise InvalidDimensions(f"Output shape  of conv model should be equal to input shape in case of  autoencoder// In these Case {self.conv_model_output} != {self.conv_model_input}")
+        if self.conv_layer.middle_layer_shape >= self.conv_input:
+            raise InvalidDimensions("AutoEncoder architecture must have bottleneck in middle layer.Please check middle layer shape.")
 ##########################################################################################################################################################################
   def create_and_train_ConvXGB(self, created_model, XGB_model, X_train, y_train) :
 
