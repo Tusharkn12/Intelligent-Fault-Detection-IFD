@@ -104,7 +104,6 @@ class Conv_layer(tf.keras.layers.Layer):
     if autoencoder_status:
       try:
         self.conv_output = conv_model.get_layer("Middle").output
-        self.middle_layer_shape = conv_model.get_layer("Middle").output_shape
       except:
         raise MissingLayerName(f""" The layer name "Middle" is not found in the conv_model
                                    ///Ensure that provided conv model has a layer named Middle
@@ -119,6 +118,7 @@ class Conv_layer(tf.keras.layers.Layer):
                                    'Flatten Layer Flattens the input. Does not affect the batch size.' """)  from None
     #Creating a model
     self.pre_xgb_model = Model(inputs = [self.conv_input], outputs = [self.conv_output])
+    self.pre_xgb_model_output = self.pre_xgb_model.output_shape
 
   @tf.function
   def call(self, inputs):
@@ -287,7 +287,7 @@ class IFD:
     if self.auto_encoder_status == True:
         if self.conv_model_output != self.conv_model_input:
           raise InvalidDimensions(f"Output shape  of conv model should be equal to input shape in case of  autoencoder// In these Case {self.conv_model_output} != {self.conv_model_input}")
-        if self.conv_layer.middle_layer_shape >= self.conv_input:
+        if self.conv_layer.pre_xgb_model_output >= self.conv_model_input:
             raise InvalidDimensions("AutoEncoder architecture must have bottleneck in middle layer.Please check middle layer shape.")
 ##########################################################################################################################################################################
   def create_and_train_ConvXGB(self, created_model, XGB_model, X_train, y_train) :
