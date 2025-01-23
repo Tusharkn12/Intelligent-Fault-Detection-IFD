@@ -405,7 +405,7 @@ class IFD:
     generated_data = self.data_generator(inp)
     conv_output = self.conv_layer(generated_data)
     if self.auto_encoder_status == True:
-      rev_conv_output = DataReverser(self.T_x, self.n_f, self.batch_size)(conv_output)
+      rev_conv_output = DataReverser(self.T_x, self.n_f)(conv_output)
       model = Model(inputs = [inp], outputs = [rev_conv_output])
     else:
       model = Model(inputs = [inp], outputs = [conv_output])
